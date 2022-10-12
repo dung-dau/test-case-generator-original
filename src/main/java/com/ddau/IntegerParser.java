@@ -4,6 +4,7 @@ public class IntegerParser {
     private String output;
 
     IntegerParser(Integer[] data, String formatChoice) {
+        output = "";
         parseInput(data, formatChoice);
     }
 

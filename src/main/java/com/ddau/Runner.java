@@ -18,7 +18,8 @@ public class Runner {
             int numValues = input.getIntegerInput().getNumValues();
 
             IntegerTestCase integerTestCase = new IntegerTestCase(minValue, maxValue, numValues);
-            IntegerParser integerParser = new IntegerParser(scanner, integerTestCase.getTestValues());
+            IntegerParser integerParser = new IntegerParser(integerTestCase.getTestValues(),
+                    input.getIntegerInput().getFormatChoice());
 
             System.out.println(integerParser.getOutput());
         } else if (input.getTypeChoice().equals("s")) {

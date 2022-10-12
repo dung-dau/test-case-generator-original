@@ -2,7 +2,7 @@ package src.main.java.com.ddau;
 
 import java.util.Scanner;
 
-public class StringParser implements Parsable {
+public class StringParser {
     private String data;
     private Scanner scanner;
     String output;
@@ -14,7 +14,7 @@ public class StringParser implements Parsable {
         parse();
     }
 
-    public void parse() {
+    private void parse() {
         String choice = "q";
         int n = data.length();
 

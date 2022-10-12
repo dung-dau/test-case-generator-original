@@ -1,27 +1,25 @@
 package src.main.java.com.ddau;
 
 public class IntegerParser {
-    private Integer[] data;
-    private String output = "";
+    private String output;
 
     IntegerParser(Integer[] data, String formatChoice) {
-        this.data = data;
-        parseInput(formatChoice);
+        parseInput(data, formatChoice);
     }
 
-    private void parseInput(String formatChoice) {
+    private void parseInput(Integer[] data, String formatChoice) {
         if (data.length == 1) {
             output += Integer.toString(data[0]);
         }
 
-        convertToCommaSeparatedList();
+        convertToCommaSeparatedList(data);
 
         if (formatChoice.equals("a")) {
             output = addFormattingCharacters("{ ", " }");
         }
     }
 
-    private void convertToCommaSeparatedList() {
+    private void convertToCommaSeparatedList(Integer[] data) {
         if (data.length < 2) {
             return;
         }

@@ -1,13 +1,20 @@
 package src.main.java.com.ddau;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Input {
     private String typeChoice = "q";
     private IntegerInput integerInput;
     private StringInput stringInput;
+    ArrayList<Map.Entry<String, String>> formats;
 
     Input(Scanner scanner) {
+        formats = new ArrayList<>();
+        formats.add(new AbstractMap.SimpleImmutableEntry<String, String>("i", "integer"));
+        formats.add(new AbstractMap.SimpleImmutableEntry<String, String>("s", "string"));
         getInput(scanner);
     }
 
@@ -22,14 +29,45 @@ public class Input {
     }
 
     private void getGenericInput(Scanner scanner) {
-        while (!typeChoice.equals("i") && !typeChoice.equals("s")) {
-            System.out.print("What type of data would you like? (I/i for integer and S/s for string/character): ");
-            typeChoice = scanner.nextLine().toLowerCase();
-            if (!typeChoice.equals("i") && !typeChoice.equals("s")) {
-                System.out.println(typeChoice + " is not equal to \"i\", \"I\", \"s\", or \"S\"");
-                System.out.println("Please enter either I or i for an integer or S or s for a string/character");
+        do {
+            System.out.println("What type of data would you like?: ");
+            for (int i = 0; i < formats.size(); i++) {
+                System.out.println("\t" + formats.get(i).getKey().toUpperCase() + " or " + formats.get(i).getKey()
+                        + ": " + formats.get(i).getValue());
             }
+            System.out.print("Enter your option: ");
+            typeChoice = scanner.nextLine().toLowerCase();
+            if (search(formats, typeChoice) < 0) {
+                System.out.print(typeChoice + " is not equal to ");
+                for (int i = 0; i < formats.size() - 1; i++) {
+                    System.out.print(formats.get(i).getKey().toUpperCase() + "/" + formats.get(i).getKey() + ", ");
+                }
+                System.out.println(
+                        formats.get(formats.size() - 1).getKey().toUpperCase() + "/"
+                                + formats.get(formats.size() - 1).getKey());
+            }
+        } while (search(formats, typeChoice) < 0);
+        System.out.println();
+    }
+
+    private int search(ArrayList<Map.Entry<String, String>> formats, String target) {
+        int low = 0, high = formats.size() - 1;
+        return binarySearch(formats, target, low, high);
+    }
+
+    private int binarySearch(ArrayList<Map.Entry<String, String>> formats, String target, int low, int high) {
+        if (low > high) {
+            return -1;
         }
+
+        int mid = low + (high - low) / 2;
+        if (formats.get(mid).getKey().compareTo(target) == 0) {
+            return mid;
+        } else if (formats.get(mid).getKey().compareTo(target) > 0) {
+            return binarySearch(formats, target, low, mid - 1);
+        }
+
+        return binarySearch(formats, target, mid + 1, high);
     }
 
     public IntegerInput getIntegerInput() {

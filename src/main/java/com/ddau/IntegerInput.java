@@ -10,12 +10,15 @@ public class IntegerInput {
     private int maxValue;
     private int numValues;
     private String formatChoice;
+    ArrayList<Map.Entry<String, String>> formats = new ArrayList<>();
 
     IntegerInput(Scanner scanner) {
         minValue = 1;
         maxValue = 0;
         numValues = 0;
         formatChoice = "";
+        formats.add(new AbstractMap.SimpleImmutableEntry<String, String>("a", "Java Array"));
+        formats.add(new AbstractMap.SimpleImmutableEntry<String, String>("c", "Comma Separated List"));
         getIntegerInput(scanner);
     }
 
@@ -28,8 +31,6 @@ public class IntegerInput {
             }
         } while (numValues < 1);
 
-        System.out.println();
-
         do {
             System.out.print("What is the acceptable minimum value? ");
             minValue = scanner.nextInt();
@@ -39,31 +40,26 @@ public class IntegerInput {
                 System.out.println("The minimum value can not be greater than the maximum value, please try again");
             }
         } while (minValue > maxValue);
-
         System.out.println();
 
         formatChoice = getFormatChoice(scanner);
-
-        System.out.println();
     }
 
     private String getFormatChoice(Scanner scanner) {
         String choice = "q";
-        ArrayList<Map.Entry<String, String>> formats = new ArrayList<>();
-        formats.add(new AbstractMap.SimpleImmutableEntry<String, String>("a", "Java Array"));
-        formats.add(new AbstractMap.SimpleImmutableEntry<String, String>("c", "Comma Separated List"));
 
         do {
             System.out.println(
                     "How would you like your data to be formatted?");
             for (int i = 0; i < formats.size(); i++) {
-                System.out.println(formats.get(i).getKey().toUpperCase() + " or " + formats.get(i).getKey() + ": "
-                        + formats.get(i).getValue());
+                System.out.println("\t" + formats.get(i).getKey().toUpperCase() + " or " + formats.get(i).getKey()
+                        + ": " + formats.get(i).getValue());
             }
             System.out.print("Enter your option: ");
             choice = scanner.next().toLowerCase();
             validateChoice(formats, choice);
         } while (search(formats, choice) < 0);
+        System.out.println();
 
         return choice;
     }
@@ -76,14 +72,6 @@ public class IntegerInput {
                 System.out.print(formats.get(i).getKey().toUpperCase() + "/" + formats.get(i).getKey() + ", ");
             }
             System.out.println(formats.get(i).getKey().toUpperCase() + "/" + formats.get(i).getKey());
-
-            System.out.println(
-                    "Please enter either:");
-            for (i = 0; i < formats.size(); i++) {
-                System.out.println("\t" + formats.get(i).getKey().toUpperCase() + " or " + formats.get(i).getKey()
-                        + " for a " + formats.get(i).getValue());
-            }
-            System.out.println();
         }
     }
 
